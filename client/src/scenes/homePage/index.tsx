@@ -3,18 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMediaQuery } from 'react-responsive';
 import { useSelector, useDispatch } from "react-redux";
-import { fetchGamesStart, fetchGamesSuccess, fetchGamesFailure, setFilteredGames } from '../../states/index'
+import { fetchGamesStart, fetchGamesSuccess, fetchGamesFailure, setFilteredGames, setGamesData } from '../../states/index'
 import NavBar from "../navbar";
 import GameCard from "../widgets/GameCard";
+import { RootState } from "../..";
 
 
 const HomePage = () => {
     const dispatch = useDispatch();
-    const filteredGames = useSelector((state) => state.filteredGames);
-    const loading = useSelector((state) => state.loading);
+    const filteredGames = useSelector((state: RootState) => state.filteredGames);
+    const loading = useSelector((state: RootState) => state.loading);
     const navigate = useNavigate();
+    const gamesData = useSelector((state: RootState) => state.gamesData);
 
-    const fetchGames = async (req, res) => {
+    const fetchGames = async () => {
         try {
             dispatch(fetchGamesStart());
             await fetch('http://localhost:3001/games').then(response => {
@@ -26,9 +28,11 @@ const HomePage = () => {
             }).then(data => {
                 console.log('Fetched games data:', data);
                 dispatch(fetchGamesSuccess(data));
+                dispatch(setGamesData(data));
             });
         } catch (error) {
-            console.log({ message: error.message });
+            const err = error as Error;
+            console.log({ message: err.message });
         }
     };
     useEffect(() => {

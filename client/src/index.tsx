@@ -32,24 +32,29 @@ const store = configureStore({
   }),
 });
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistStore(store)}>
-      <Auth0Provider
-        domain={config.domain}
-        clientId={config.clientId}
-        authorizationParams={{
-          redirect_uri: window.location.origin
-        }}
-      >
-        <App />
-      </Auth0Provider>
-    </PersistGate>
-  </Provider>
-);
+export type RootState = ReturnType<typeof store.getState>;
+const rootElement: HTMLElement | null = document.getElementById('root');
 
+if (rootElement) {
+  const root = ReactDOM.createRoot(rootElement);
+
+  root.render(
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistStore(store)}>
+        <Auth0Provider
+          domain={config.domain}
+          clientId={config.clientId}
+          authorizationParams={{
+            redirect_uri: window.location.origin
+          }}
+        >
+          <App />
+        </Auth0Provider>
+      </PersistGate>
+    </Provider>
+  );
+}
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals(console.log);

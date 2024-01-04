@@ -1,12 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
+import Game from '../interface/games';
+
+interface GameState {
+    gamesData: Game[];
+    filteredGames: Game[];
+    loading: boolean;
+    error: string | null;
+}
+
+const initialState: GameState = {
+    gamesData: [],
+    filteredGames: [],
+    loading: false,
+    error: null,
+};
 
 const gamesSlice = createSlice({
     name: 'games',
-    initialState: {
-        filteredGames: [],
-        loading: false,
-        error: null,
-    },
+    initialState,
     reducers: {
         fetchGamesStart(state) {
             state.loading = true;
@@ -23,9 +34,12 @@ const gamesSlice = createSlice({
         setFilteredGames(state, action) {
             state.filteredGames = action.payload;
         },
+        setGamesData(state, action) {
+            state.filteredGames = action.payload;
+        },
     },
 });
 
-export const { fetchGamesStart, fetchGamesSuccess, fetchGamesFailure, setFilteredGames } = gamesSlice.actions;
+export const { fetchGamesStart, fetchGamesSuccess, fetchGamesFailure, setFilteredGames, setGamesData } = gamesSlice.actions;
 
 export default gamesSlice.reducer;

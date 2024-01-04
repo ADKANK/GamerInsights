@@ -4,18 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchGamesStart, fetchGamesSuccess, fetchGamesFailure, setFilteredGames } from '../../states/index'
-
+import { fetchGamesFailure, setFilteredGames, setGamesData } from '../../states/index'
+import { RootState } from '../..';
 const NavBar = () => {
     const dispatch = useDispatch();
     const { logout, user, isAuthenticated, loginWithRedirect } = useAuth0();
-    const [query, setQuery] = useState('');
+    const [query, setQuery] = useState<string>('');
     const isDesktop = useMediaQuery({ query: '(min-width: 960px)' });
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     const navigate = useNavigate();
-    const gamesData = useSelector((state) => state.gamesData);
-    const filteredGames = useSelector((state) => state.filteredGames);
-    const loading = useSelector((state) => state.loading);
+    const filteredGames = useSelector((state: RootState) => state.filteredGames);
+    const loading = useSelector((state: RootState) => state.loading);
+    const gamesData = useSelector((state: RootState) => state.gamesData);
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -26,8 +26,12 @@ const NavBar = () => {
         setIsOpen(false);
     };
 
+    const handleLogin = async () => {
+        await loginWithRedirect();
+    };
 
-    const handleInputChange = (e) => {
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(e.target.value);
     };
     const handleSearch = async () => {
@@ -39,13 +43,12 @@ const NavBar = () => {
             dispatch(fetchGamesFailure(error));
         }
     };
-    const resetSearch = (e) => {
+    const resetSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
         dispatch(setFilteredGames(gamesData));
         setQuery('');
-        setQuery(e.target.value);
     };
 
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             handleSearch();
         }
@@ -83,9 +86,9 @@ const NavBar = () => {
                                 <>
                                     <div className="flex items-center space-x-4 ml-auto justify-end ml-5">
 
-                                        <img src={user.picture} className="w-10 h-10 rounded-full" alt="Rounded avatar" />
+                                        {user && <img src={user.picture} className="w-10 h-10 rounded-full" alt="Rounded avatar" />}
                                         <div className="text-white">
-                                            <span className="font-semibold">{user.name}</span>
+                                            <span className="font-semibold">{user && user.name}</span>
                                         </div>
                                         <div className="relative inline-block text-left">
                                             <button
@@ -109,7 +112,7 @@ const NavBar = () => {
                                                 <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                                                     <div className="py-1" role="menu" aria-orientation="horizontal" aria-labelledby="options-menu">
                                                         <button
-                                                            onClick={() => navigate(`/profile/${user.sub}`)} // Add your profile button logic
+                                                            onClick={() => user && navigate(`/profile/${user.sub}`)} // Add your profile button logic
                                                             className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                                                             role="menuitem"
                                                         >
@@ -130,7 +133,7 @@ const NavBar = () => {
                                 </>
                             ) : (
                                 <>
-                                    <button onClick={loginWithRedirect} className="text-sm  text-blue-600 dark:text-blue-500 hover:underline">Login</button> </>
+                                    <button onClick={handleLogin} className="text-sm  text-blue-600 dark:text-blue-500 hover:underline">Login</button> </>
                             )
                             }
                         </div>
@@ -139,13 +142,13 @@ const NavBar = () => {
                         <>
                             <div className="flex items-center space-x-4 ml-auto justify-end ml-5">
 
-                                <img src={user.picture} className="w-10 h-10 rounded-full" alt="Rounded avatar" />
+                                {user && <img src={user.picture} className="w-10 h-10 rounded-full" alt="Rounded avatar" />}
 
                             </div>
                         </>
                     ) : (
                         <>
-                            <button onClick={loginWithRedirect} className="text-sm  text-blue-600 dark:text-blue-500 hover:underline">Login</button> </>
+                            <button onClick={handleLogin} className="text-sm  text-blue-600 dark:text-blue-500 hover:underline">Login</button> </>
                     ))
 
 

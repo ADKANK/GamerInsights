@@ -2,15 +2,16 @@ import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
 import HomePage from './scenes/homePage';
 import ProfilePage from './scenes/profilePage';
 import GameDetails from './scenes/gamesInfo';
+import React from 'react';
 
 
-function App() {
+const App: React.FC = () => {
 
   return (
     <div className="app">
       <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/profile/:userId" element={<ProfilePage />} />
           <Route path="/games/:gameId" element={<GameDetails />} />
         </Routes>

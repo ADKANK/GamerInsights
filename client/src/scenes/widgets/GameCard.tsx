@@ -1,7 +1,8 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import Game from '../../interface/games';
 
-const GameCard = ({ filteredGames }) => {
+const GameCard = ({ filteredGames }: { filteredGames: Game[] | null }) => {
     const navigate = useNavigate();
     return (
         <div className="bg-gray-100 min-h-screen">

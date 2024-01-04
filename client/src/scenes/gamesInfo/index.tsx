@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import Game from '../../interface/games';
 
 const GameDetails = () => {
     const { gameId } = useParams();
-    const [gameInfo, setGameInfo] = useState(null);
+    const [gameInfo, setGameInfo] = useState<Game | null>(null);
     const fetchGameDetails = async () => {
         try {
             const response = await fetch(`http://localhost:3001/games/details?_id=${gameId}`);
@@ -56,7 +57,7 @@ const GameDetails = () => {
                                 {gameInfo.published_store && (
                                     <tr>
                                         <td className="py-2 px-4 font-semibold">Published Store</td>
-                                        <td className="py-2 px-4">{gameInfo.published_store}</td>
+                                        <td className="py-2 px-4">{gameInfo.published_store.toLocaleDateString()}</td>
                                     </tr>
                                 )}
                                 {gameInfo.platforms && (
@@ -78,10 +79,10 @@ const GameDetails = () => {
                                     </tr>
                                 )}
 
-                                {gameInfo.genre && (
+                                {gameInfo.genres && (
                                     <tr>
                                         <td className="py-2 px-4 font-semibold">Genre</td>
-                                        <td className="py-2 px-4">{gameInfo.genre}</td>
+                                        <td className="py-2 px-4">{gameInfo.genres}</td>
                                     </tr>
                                 )}
                                 {gameInfo.tags && (
