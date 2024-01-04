@@ -57,7 +57,7 @@ const GameDetails = () => {
                                 {gameInfo.published_store && (
                                     <tr>
                                         <td className="py-2 px-4 font-semibold">Published Store</td>
-                                        <td className="py-2 px-4">{gameInfo.published_store.toLocaleDateString()}</td>
+                                        <td className="py-2 px-4">{(gameInfo.published_store instanceof Date) ?? gameInfo.published_store.toLocaleDateString()}</td>
                                     </tr>
                                 )}
                                 {gameInfo.platforms && (

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchGamesFailure, setFilteredGames, setGamesData } from '../../states/index'
+import { fetchGamesFailure, setFilteredGames } from '../../states/index'
 import { RootState } from '../..';
 const NavBar = () => {
     const dispatch = useDispatch();
@@ -13,8 +13,6 @@ const NavBar = () => {
     const isDesktop = useMediaQuery({ query: '(min-width: 960px)' });
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const navigate = useNavigate();
-    const filteredGames = useSelector((state: RootState) => state.filteredGames);
-    const loading = useSelector((state: RootState) => state.loading);
     const gamesData = useSelector((state: RootState) => state.gamesData);
 
     const toggleDropdown = () => {
