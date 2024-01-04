@@ -1,11 +1,8 @@
-// gamesSlice.js
-
 import { createSlice } from '@reduxjs/toolkit';
 
 const gamesSlice = createSlice({
     name: 'games',
     initialState: {
-        gamesData: [],
         filteredGames: [],
         loading: false,
         error: null,
@@ -17,7 +14,6 @@ const gamesSlice = createSlice({
         },
         fetchGamesSuccess(state, action) {
             state.loading = false;
-            state.gamesData = action.payload;
             state.filteredGames = action.payload;
         },
         fetchGamesFailure(state, action) {
