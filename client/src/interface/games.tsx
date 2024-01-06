@@ -1,4 +1,4 @@
-interface Game {
+export interface Game {
     _id: string;
     sid: number;
     store_url: string;
@@ -48,4 +48,11 @@ interface Game {
     igdb_popularity: number;
 }
 
-export default Game;
+export interface Review {
+    _id?: string;
+    userId: string;
+    review: string;
+    createdAt: Date;
+    userName: string;
+}
+

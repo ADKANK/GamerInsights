@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import Game from '../../interface/games';
+import { Game } from '../../interface/games';
 
 const GameCard = ({ filteredGames }: { filteredGames: Game[] | null }) => {
     const navigate = useNavigate();

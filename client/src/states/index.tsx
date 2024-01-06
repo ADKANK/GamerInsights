@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import Game from '../interface/games';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { Game } from '../interface/games';
 
 interface GameState {
     gamesData: Game[];
@@ -23,18 +23,18 @@ const gamesSlice = createSlice({
             state.loading = true;
             state.error = null;
         },
-        fetchGamesSuccess(state, action) {
+        fetchGamesSuccess(state, action: PayloadAction<Game[]>) {
             state.loading = false;
             state.filteredGames = action.payload;
         },
-        fetchGamesFailure(state, action) {
+        fetchGamesFailure(state, action: PayloadAction<string>) {
             state.loading = false;
             state.error = action.payload;
         },
-        setFilteredGames(state, action) {
+        setFilteredGames(state, action: PayloadAction<Game[]>) {
             state.filteredGames = action.payload;
         },
-        setGamesData(state, action) {
+        setGamesData(state, action: PayloadAction<Game[]>) {
             state.filteredGames = action.payload;
         },
     },

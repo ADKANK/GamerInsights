@@ -38,7 +38,8 @@ const NavBar = () => {
             const data = await response.json();
             dispatch(setFilteredGames(data));
         } catch (error) {
-            dispatch(fetchGamesFailure(error));
+            if (error instanceof Error)
+                dispatch(fetchGamesFailure(error.message));
         }
     };
     const resetSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
