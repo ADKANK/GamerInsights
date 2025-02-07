@@ -6,8 +6,11 @@ const ProfilePage = () => {
     const { user, isAuthenticated } = useAuth0()
     const navigate = useNavigate()
 
+    if (!isAuthenticated) {
+        return <div className="text-center text-red-500 p-4">Access Denied. Please log in.</div>; 
+    }
+
     return (
-        isAuthenticated &&
         <div className="max-w-screen-xl mx-auto p-4">
             <div className="bg-blue-500 text-white p-4 mb-4 items-center rounded-md flex ">
                 <button onClick={() => navigate(-1)} className='mr-2'>
