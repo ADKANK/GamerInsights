@@ -4,7 +4,7 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import config from './auth_config.json';
+import config from './auth_config';
 import gamesReducer from './states/index'
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
