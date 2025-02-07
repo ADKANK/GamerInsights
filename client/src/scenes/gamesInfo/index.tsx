@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Game, Review } from '../../interface/games';
-import { useAuth0 } from '@auth0/auth0-react';
 import ReviewPage from '../reviewPage';
 
 const GameDetails = () => {
     const navigate = useNavigate();
     const { gameId } = useParams<{ gameId: string }>();
-    const [reviews, setReviews] = useState<Review[]>([]);
-    const [newReview, setNewReview] = useState<string>('');
     const [gameInfo, setGameInfo] = useState<Game | null>(null);
-    const [loading, setLoading] = useState<Boolean>(true);
 
 
     const fetchGameDetails = async () => {
