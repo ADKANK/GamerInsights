@@ -1,0 +1,26 @@
+services:
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: "${USR}/backend:${VERSION}"
+    container_name: backend
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "${BACKEND_PORT}:5000"
+
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: "${USR}/frontend:${VERSION}"
+    container_name: frontend
+    restart: always
+    depends_on:
+      - backend
+    env_file:
+      - .env
+    ports:
+      - "${FRONTEND_PORT}:80"

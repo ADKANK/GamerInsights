@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend-container
+          image: "adk09/frontend:v1"
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: app-config
+          env:
+            - name: REACT_APP_AUTH0_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: sensitive-info-secret
+                  key: REACT_APP_AUTH0_CLIENT_ID
+            - name: REACT_APP_AUTH0_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: sensitive-info-secret
+                  key: REACT_APP_AUTH0_DOMAIN
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: NodePort
